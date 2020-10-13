@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import com.practice.fileIO.EmployeePayrollService.IOService;
 
+
 public class EmployeePayRollServiceTest {
 
 	@Test
@@ -19,7 +20,7 @@ public class EmployeePayRollServiceTest {
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
 		employeePayrollService.setEmployeePayRollList(employeeList);
 		employeePayrollService.writeEmployeePayrollData(IOService.FILE_IO);
-		//employeePayrollService.printData(IOService.FILE_IO);
+		employeePayrollService.printData(IOService.FILE_IO);
 		long numberOfEntries = employeePayrollService.countEntries(IOService.FILE_IO);
 		assertEquals(3,numberOfEntries);
 	}
