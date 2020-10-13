@@ -17,14 +17,16 @@ public class WatchServiceExample {
 	public WatchServiceExample(Path directoryPath) throws IOException {
 		this.watcher = FileSystems.getDefault().newWatchService();
 		this.directoryWatchers = new HashMap<WatchKey,Path>();
-		scanAndRegisterDirectories(directoryPath);
+		//scanAndRegisterDirectories(directoryPath);
 	}
 
-	private void scanAndRegisterDirectories(final Path Start) throws IOException {
+	/*
+	  private void scanAndRegisterDirectories(final Path Start) throws IOException {
 		Files.walkFileTree(Start, (simpleFileVisitor)preVisitDirectory(directoryWatchers,attrs)->{
 			registerDirWatchers(directoryWatchers);
 			return FileVisitResult.CONTINUE;
 		});
 	}
+	*/
 
 }
