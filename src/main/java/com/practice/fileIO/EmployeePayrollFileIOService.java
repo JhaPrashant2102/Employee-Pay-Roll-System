@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class EmployeePayrollFileIOService {
 	public String PAYROLL_FILE_NAME = "payroll-file.txt";
@@ -41,6 +43,20 @@ public class EmployeePayrollFileIOService {
 			e.printStackTrace();
 		}
 		return entries;
+	}
+
+	public List<EmployeePayRollData> readData() {
+		Pattern idRegex = Pattern.compile("^[iI][dD][\s][:][\s]$[,]");
+		Pattern nameRegex = Pattern.compile("^[Nn][aA][mM][eE][\s][:][\s]$[,]");
+		Pattern SalaryRegex = Pattern.compile("^[sS][aA][lL][aA][rR][yY][\s][:]");
+		List<EmployeePayRollData> returnList = new ArrayList<>();
+		try {
+			Files.lines(new File("payroll-file.txt").toPath()).map(line->line.trim()).forEach(line->returnList.add(new EmployeePayRollData(Integer.parseInt(
+					idRegex.matcher(line).group()), nameRegex.matcher(line).group(), Double.parseDouble(SalaryRegex.matcher(line).group()))));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return returnList;
 	}
 
 }
