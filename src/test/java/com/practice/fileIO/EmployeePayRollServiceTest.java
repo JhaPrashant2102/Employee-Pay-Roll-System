@@ -23,8 +23,15 @@ public class EmployeePayRollServiceTest {
 		employeePayrollService.printData(IOService.FILE_IO);
 		long numberOfEntries = employeePayrollService.countEntries(IOService.FILE_IO);
 		List<EmployeePayRollData> analysisList = employeePayrollService.readData(IOService.FILE_IO);
+		if(analysisList!=null) {
 		System.out.println(analysisList);
+		}
+		else {
+			System.out.println("null");
+		}
 		assertEquals(3,numberOfEntries);
 	}
+	
+	
 
 }

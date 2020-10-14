@@ -37,6 +37,6 @@ public class EmployeePayRollData {
 	}
 
 	public String toString() {
-		return "ID : "+this.getId()+", Name : "+this.getName()+", Salary :"+this.getSalary();
+		return "id ="+this.getId()+",name ="+this.getName()+",salary ="+this.getSalary();
 	}
 }

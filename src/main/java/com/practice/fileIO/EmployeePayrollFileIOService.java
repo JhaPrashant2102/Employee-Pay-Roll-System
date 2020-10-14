@@ -6,20 +6,19 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 public class EmployeePayrollFileIOService {
 	public String PAYROLL_FILE_NAME = "payroll-file.txt";
 
 	public void writeData(List<EmployeePayRollData> employeePayRollList) {
 		StringBuffer empBuffer = new StringBuffer();
-		employeePayRollList.forEach(employee->{
+		employeePayRollList.forEach(employee -> {
 			String employeeData = employee.toString().concat("\n");
 			empBuffer.append(employeeData);
 		});
-		
+
 		try {
-			Files.write(Paths.get(PAYROLL_FILE_NAME),empBuffer.toString().getBytes());
+			Files.write(Paths.get(PAYROLL_FILE_NAME), empBuffer.toString().getBytes());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -31,7 +30,7 @@ public class EmployeePayrollFileIOService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	public long countEntries() {
@@ -46,13 +45,33 @@ public class EmployeePayrollFileIOService {
 	}
 
 	public List<EmployeePayRollData> readData() {
-		Pattern idRegex = Pattern.compile("^[iI][dD][\s][:][\s]$[,]");
-		Pattern nameRegex = Pattern.compile("^[Nn][aA][mM][eE][\s][:][\s]$[,]");
-		Pattern SalaryRegex = Pattern.compile("^[sS][aA][lL][aA][rR][yY][\s][:]");
 		List<EmployeePayRollData> returnList = new ArrayList<>();
 		try {
-			Files.lines(new File("payroll-file.txt").toPath()).map(line->line.trim()).forEach(line->returnList.add(new EmployeePayRollData(Integer.parseInt(
-					idRegex.matcher(line).group()), nameRegex.matcher(line).group(), Double.parseDouble(SalaryRegex.matcher(line).group()))));
+			Files.lines(new File(PAYROLL_FILE_NAME).toPath()).map(line -> line.trim()).forEach(line -> {
+				int check = 1;
+				int id = 0;
+				double salary = 0;
+				String name = "";
+				String data = line.toString();
+				String dataList[] = data.split(",");
+				for (String string : dataList) {
+					if (check == 1) {
+						id = Integer.parseInt(string.replaceAll("id =", ""));
+						check++;
+						continue;
+					}
+					if(check==2) {
+						name = string.replaceAll("name =", "");
+						check++;
+						continue;
+					}
+					if(check==3) {
+						salary = Double.parseDouble(string.replaceAll("salary =", ""));
+						break;
+					}
+				}
+				returnList.add(new EmployeePayRollData(id, name, salary));
+			});
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
